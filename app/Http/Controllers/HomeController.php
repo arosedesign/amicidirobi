@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\RuoloController;
+
 
 class HomeController extends Controller
 {
@@ -23,6 +25,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('admin.index');
+
+        $ruoloUtente= new RuoloController();
+        $ruolo = $ruoloUtente->control();
+
+
+        if ($ruolo === 'in_attesa') {
+            return view('admin.validazione');
+        } elseif ($ruolo === 'admin') {
+            return view('admin.index');
+        }
+
+
     }
 }

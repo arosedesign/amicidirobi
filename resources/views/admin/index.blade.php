@@ -1,14 +1,28 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="container">
+
+<div class="container adminpanel">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
-
                 <div class="panel-body">
-                    You are logged in!
+                    <div class="box_link">
+                        <a href="/utenti">Utenti</a>
+                    </div>
+                    <div class="box_link">
+                        <a href="/utenti">Torneo</a>
+                    </div>
+                    <div class="box_link">
+                        <a href="/utenti">Festival</a>
+                    </div>
+                    <div class="box_link">
+                        <a href="/utenti">TRK</a>
+                    </div>
+                    <div class="box_link">
+                        <a href="/utenti">Associazione</a>
+                    </div>
+
                 </div>
             </div>
         </div>

@@ -19,7 +19,10 @@ Auth::routes();
 
 Route::group(['domain' => 'admin.gliamicidirobi'], function () {
 
-    Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/', 'HomeController@index')->name('index');
+    Route::get('utenti', ['uses' => 'UtentiController@index', 'as' => 'admin.utenti']);
+    Route::get('utenti/update', ['uses' => 'UtentiController@cambiaRuolo', 'as' => 'admin.utenti']);
+
 
 });
 
