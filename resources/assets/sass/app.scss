@@ -1,0 +1,53 @@
+// Fonts
+@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+
+// Variables
+@import "variables";
+
+// Bootstrap
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+
+.navbar-default {
+  display: block;
+  min-height: 75px;
+  border: none;
+  .navbar-brand span {
+    vertical-align: top;
+    margin-top: 12px;
+    display: inline-block;
+    margin-left: 10px;
+    text-transform: uppercase;
+    color: $brand-primary;
+  }
+  ul li a {
+    font-size: $titoletto-size;
+    text-transform: $titoletto-transform;
+    font-weight: $titoletto-weight;
+    padding: 27px;
+    @media screen and (max-width: $maxbreak-small) {
+      padding: 7px 10px;
+    }
+  }
+  ul.navbar-nav li.active a,
+  ul.navbar-nav li.active a:hover {
+    background: $body-bg;
+    color: $navbar-default-bg;
+    @media screen and (max-width: $maxbreak-small) {
+      color: $brand-primary;
+      font-weight: $titoletto-weight;
+      background: $navbar-default-bg;
+    }
+  }
+  .navbar-toggle {
+    margin-top: 20px;
+  }
+}
+
+.panel-heading {
+  font-size: $titoletto-size;
+  text-transform: $titoletto-transform;
+  font-weight: $titoletto-weight;
+  width: 100%;
+  text-align: center;
+}

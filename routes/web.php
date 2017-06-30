@@ -1,0 +1,69 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Auth::routes();
+
+/* |--------------------------------------------------------------------------
+| PANNELLO ADMIN
+|-------------------------------------------------------------------------- */
+
+Route::group(['domain' => 'admin.gliamicidirobi'], function () {
+
+    Route::get('/', 'HomeController@index')->name('home');
+
+});
+
+
+/* |--------------------------------------------------------------------------
+| TORNEO
+|-------------------------------------------------------------------------- */
+
+Route::group(['domain' => 'classicstreetballmemorialrobitelli.gliamicidirobi'], function () {
+
+    Route::get('/', function () {
+        return view('torneo.index');
+    });
+});
+
+/* |--------------------------------------------------------------------------
+| FESTIVAL
+|-------------------------------------------------------------------------- */
+
+Route::group(['domain' => 'tantarobbafreemusicfestival.gliamicidirobi'], function () {
+
+    Route::get('/', function () {
+            return view('festival.index');
+    });
+});
+
+/* |--------------------------------------------------------------------------
+| TRK
+|-------------------------------------------------------------------------- */
+
+Route::group(['domain' => 'tantarobbakids.gliamicidirobi'], function () {
+
+    Route::get('/', function () {
+        return view('trk.index');
+    });
+});
+
+/* |--------------------------------------------------------------------------
+| ASSOCIAZIONE
+|-------------------------------------------------------------------------- */
+
+Route::group(['domain' => 'gliamicidirobi'], function () {
+
+    Route::get('/', function () {
+        return view('associazione.index');
+    });
+});
