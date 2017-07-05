@@ -14,7 +14,7 @@
                         <a href="/">Torneo</a>
                     </div>
                     <div class="box_link">
-                        <a href="/">Festival</a>
+                        <a href="/festival">Festival</a>
                     </div>
                     <div class="box_link">
                         <a href="/">TRK</a>

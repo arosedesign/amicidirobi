@@ -7,6 +7,12 @@
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+h1 {
+  padding-left: 15px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: $titoletto-weight;
+}
 
 .navbar-default {
   display: block;
@@ -112,10 +118,18 @@
     margin-left: 0;
     margin-right: 0;
   }
-  h1 {
-    padding-left: 15px;
-    text-align: center;
-    text-transform: uppercase;
-    font-weight: $titoletto-weight;
+}
+
+
+.festival {
+  .tabella-modifica {
+    td,th {
+     text-align: center;
+    }
+    img {
+      max-width: $thumb-width;
+      max-height: $thumb-height;
+    }
+
   }
 }

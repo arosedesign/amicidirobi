@@ -34,6 +34,8 @@ class HomeController extends Controller
             return view('admin.validazione');
         } elseif ($ruolo === 'admin') {
             return view('admin.index');
+        } elseif ($ruolo === 'festival') {
+            return redirect('/festival');
         }
 
 

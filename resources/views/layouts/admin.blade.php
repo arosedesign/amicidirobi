@@ -11,7 +11,7 @@
     <title>Amministrazione ADR</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ asset(mix('/css/app.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('/css/admin.css')) }}">
 </head>
 <body>
     <div id="app">
@@ -205,6 +205,22 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset(mix('js/app.js')) }}"></script>
+    <script src="{{ asset(mix('js/admin.js')) }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.summernote').summernote({
+                toolbar: [
+                    ['fontsize', ['fontsize']],
+                    ['font', ['bold', 'italic', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['misc', ['fullscreen', 'codeview', 'undo', 'redo']],
+                    ['insert', ['picture', 'hr', 'link', 'video']]
+                ],
+                height:300,
+                fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48' , '64', '82', '150']
+            });
+        });
+    </script>
 </body>
 </html>

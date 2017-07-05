@@ -16,10 +16,20 @@ mix.js('resources/assets/js/app.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css')
    .version();
 
+mix.styles([
+    'resources/assets/css/summernote.css',
+    'public/css/app.*.css'
+], 'public/css/admin.css');
+
+mix.scripts([
+    'public/js/app.*.js',
+    'resources/assets/js/summernote.min.js',
+], 'public/js/admin.js');
+
 mix.browserSync('admin.gliamicidirobi');
 
 mix.webpackConfig({
     plugins: [
-        new CleanWebpackPlugin(['./public/js', './public/css', './public/fonts'])
+        new CleanWebpackPlugin(['./public/js', './public/css'])
     ]
 });

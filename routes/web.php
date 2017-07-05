@@ -24,6 +24,10 @@ Route::group(['domain' => 'admin.gliamicidirobi'], function () {
     Route::get('/', 'HomeController@index')->name('index');
     Route::get('utenti', ['uses' => 'UtentiController@index', 'as' => 'admin.utenti']);
     Route::get('profilo', ['uses' => 'UtentiController@profilo', 'as' => 'admin.profilo']);
+    Route::get('festival', ['uses' => 'FestivalController@index', 'as' => 'admin.festival']);
+
+    Route::post('upload', ['uses' => 'FestivalController@UpdateImg', 'as' => 'admin.festival']);
+
 
 
 
