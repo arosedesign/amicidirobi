@@ -11,7 +11,7 @@
 |
 */
 
-Auth::routes();
+
 
 /* |--------------------------------------------------------------------------
 | PANNELLO ADMIN
@@ -19,9 +19,12 @@ Auth::routes();
 
 Route::group(['domain' => 'admin.gliamicidirobi'], function () {
 
+    Auth::routes();
+
     Route::get('/', 'HomeController@index')->name('index');
     Route::get('utenti', ['uses' => 'UtentiController@index', 'as' => 'admin.utenti']);
-    Route::get('utenti/update', ['uses' => 'UtentiController@cambiaRuolo', 'as' => 'admin.utenti']);
+    Route::get('profilo', ['uses' => 'UtentiController@profilo', 'as' => 'admin.profilo']);
+
 
 
 });

@@ -1,4 +1,15 @@
+// Transation
+@mixin transition($duration) {
+  -webkit-transition: $duration;
+  -moz-transition: $duration;
+  -ms-transition: $duration;
+  -o-transition: $duration;
+  transition: $duration;
+}
+
 // MediaQuery
+$maxbreak-xsmall: 550px;
+$minbreak-xsmall: 551px;
 $maxbreak-small: 691px;
 $minbreak-small: 692px;
 
@@ -14,6 +25,7 @@ $panel-inner-border: $laravel-border-color;
 
 // Brands
 $brand-primary: #e2001a;
+$brand-secondary: #eeeeee;
 $brand-info: #8eb4cb;
 $brand-success: #2ab27b;
 $brand-warning: #cbb956;

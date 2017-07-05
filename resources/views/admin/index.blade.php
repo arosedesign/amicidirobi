@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container adminpanel">
+<div class="container adminpanel homeadmin">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
@@ -11,16 +11,16 @@
                         <a href="/utenti">Utenti</a>
                     </div>
                     <div class="box_link">
-                        <a href="/utenti">Torneo</a>
+                        <a href="/">Torneo</a>
                     </div>
                     <div class="box_link">
-                        <a href="/utenti">Festival</a>
+                        <a href="/">Festival</a>
                     </div>
                     <div class="box_link">
-                        <a href="/utenti">TRK</a>
+                        <a href="/">TRK</a>
                     </div>
                     <div class="box_link">
-                        <a href="/utenti">Associazione</a>
+                        <a href="/">Associazione</a>
                     </div>
 
                 </div>

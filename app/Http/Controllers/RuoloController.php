@@ -17,6 +17,6 @@ class RuoloController extends Controller
             ->where('id' , '=', $id)
             ->first();
 
-        return $selectruolo->ruolo;;
+        return $selectruolo->ruolo;
     }
 }
