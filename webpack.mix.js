@@ -1,4 +1,5 @@
 const { mix } = require('laravel-mix');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 /*
  |--------------------------------------------------------------------------
@@ -16,3 +17,9 @@ mix.js('resources/assets/js/app.js', 'public/js')
    .version();
 
 mix.browserSync('admin.gliamicidirobi');
+
+mix.webpackConfig({
+    plugins: [
+        new CleanWebpackPlugin(['./public/js', './public/css', './public/fonts'])
+    ]
+});
