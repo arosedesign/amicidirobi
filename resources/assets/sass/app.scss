@@ -120,16 +120,47 @@ h1 {
   }
 }
 
+.summernote .note-editable {
+  text-align: left;
+}
 
 .festival {
   .tabella-modifica {
-    td,th {
-     text-align: center;
+    tr {
+      border: solid 1px #333;
+      margin-bottom: 20px;
+      display: block;
+      td,th {
+        text-align: center;
+        width: 100%;
+        display: block;
+        border:none;
+      }
+      img {
+        max-width: $thumb-width;
+        max-height: $thumb-height;
+      }
+      .btn.salva {
+        width: 100%;
+        margin-top: 10px;
+      }
+      .contenuto {
+        width: 90%;
+        display: inline-block;
+      }
+      form.cancella.form-horizontal {
+        width: 8%;
+        display: inline-block;
+        vertical-align: top;
+        margin-top: 20px;
+      }
+      input.btn.btn-info {
+        margin: auto;
+      }
+      h2 {
+        text-transform: uppercase;
+        font-weight: 700;
+      }
     }
-    img {
-      max-width: $thumb-width;
-      max-height: $thumb-height;
-    }
-
   }
 }

@@ -27,6 +27,8 @@ Route::group(['domain' => 'admin.gliamicidirobi'], function () {
     Route::get('festival', ['uses' => 'FestivalController@index', 'as' => 'admin.festival']);
 
     Route::post('upload', ['uses' => 'FestivalController@UpdateImg', 'as' => 'admin.festival']);
+    Route::post('cancella', ['uses' => 'FestivalController@PulisciValore', 'as' => 'admin.festival']);
+    Route::post('update', ['uses' => 'FestivalController@UpdateTesto', 'as' => 'admin.festival']);
 
 
 

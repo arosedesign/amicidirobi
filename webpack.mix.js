@@ -24,6 +24,7 @@ mix.styles([
 mix.scripts([
     'public/js/app.*.js',
     'resources/assets/js/summernote.min.js',
+    'resources/assets/js/summernote-it-IT.js'
 ], 'public/js/admin.js');
 
 mix.browserSync('admin.gliamicidirobi');
