@@ -45,7 +45,7 @@
                                 <td class="valore">
                                     <div class="contenuto">
                                         @if ( $campo['tipo'] === 'immagine' && !empty($campo['valore']))
-                                            <img src="{{asset('uploads/' . $campo['valore'] )}}" >
+                                            <img src="{{asset('uploads/thumb/' . $campo['valore'] )}}" >
                                         @elseif ( $campo['tipo'] === 'testo')
                                             <p>{!! $campo['valore']  !!}</p>
                                         @endif
