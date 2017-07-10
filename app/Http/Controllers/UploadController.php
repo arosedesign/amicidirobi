@@ -34,25 +34,44 @@ class UploadController extends Controller
 
             if ($width >= $height) {
 
-                $img->resize(1200, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                })
-                    ->save(public_path('/uploads/big/'.$fotoNome))
-                    ->resize(150, null, function ($constraint) {
+                if ($width > 1200)  {
+                    $img->resize(1200, null, function ($constraint) {
                         $constraint->aspectRatio();
                     })
-                    ->save(public_path('/uploads/thumb/'.$fotoNome));
+                        ->save(public_path('/uploads/big/'.$fotoNome))
+                        ->resize(150, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                        })
+                        ->save(public_path('/uploads/thumb/'.$fotoNome));
+                } else {
+                    $img->save(public_path('/uploads/big/'.$fotoNome))
+                        ->resize(150, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                        })
+                        ->save(public_path('/uploads/thumb/'.$fotoNome));
+                }
 
             } else {
 
-                $img->resize(null, 900, function ($constraint) {
-                    $constraint->aspectRatio();
-                })
-                    ->save(public_path('/uploads/big/'.$fotoNome))
-                    ->resize(null, 150, function ($constraint) {
+                if ($height > 900)  {
+                    $img->resize(null, 900, function ($constraint) {
                         $constraint->aspectRatio();
                     })
-                    ->save(public_path('/uploads/thumb/'.$fotoNome));
+                        ->save(public_path('/uploads/big/'.$fotoNome))
+                        ->resize(null, 150, function ($constraint) {
+                            $constraint->aspectRatio();
+                        })
+                        ->save(public_path('/uploads/thumb/'.$fotoNome));
+
+                } else {
+                    $img->save(public_path('/uploads/big/'.$fotoNome))
+                        ->resize(null, 150, function ($constraint) {
+                            $constraint->aspectRatio();
+                        })
+                        ->save(public_path('/uploads/thumb/'.$fotoNome));
+                }
+
+
 
             }
 
