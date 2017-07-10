@@ -38,8 +38,11 @@ class FestivalController extends Controller
 
                 }
 
+                $errore = $request->get('errore');
+
                 return view('admin.festival')->with([
                     'data' => $data,
+                    'errore' => $errore,
                     'update' => $update
                 ]);
             } else {
@@ -62,29 +65,37 @@ class FestivalController extends Controller
         $uploadImage= new UploadController();
         $image = $uploadImage->store($data);
 
-        $checkriga = DB::table('festival')
-            ->select()
-            ->where('campo', $campo)
-            ->first();
+        if ($image['upload'] === true) {
 
-        if (!(empty($checkriga))){
-
-            DB::table('festival')
+            $checkriga = DB::table('festival')
+                ->select()
                 ->where('campo', $campo)
-                ->update([
-                    'valore' => $image
-                ]);
+                ->first();
+
+            if (!(empty($checkriga))){
+
+                DB::table('festival')
+                    ->where('campo', $campo)
+                    ->update([
+                        'valore' => $image['foto']
+                    ]);
+            } else {
+                DB::table('festival')->insert(
+                    [
+                        'campo' => $campo,
+                        'valore' => $image['foto'],
+                        'tipo' => 'immagine'
+                    ]
+                );
+            }
+
+            return redirect('/festival?update=true');
+
         } else {
-            DB::table('festival')->insert(
-                [
-                    'campo' => $campo,
-                    'valore' => $image,
-                    'tipo' => 'immagine'
-                ]
-            );
+            $errore = urlencode($image['errore']);
+            return redirect('/festival?update=error&errore='.$errore);
         }
 
-        return redirect('/festival?update=true');
     }
 
     public function PulisciValore(Request $request)

@@ -28,7 +28,18 @@
                         window.location.href = '/festival';
                     }, 5000);
                 </script>
-            @endif
+
+                @elseif($update === 'error')
+                    <div class="alert alert-danger">
+                        {{ $errore }}
+                    </div>
+
+                    <script>
+                        window.setTimeout(function() {
+                            window.location.href = '/festival';
+                        }, 5000);
+                    </script>
+                @endif
 
 
             <div class="panel panel-default">
