@@ -16,7 +16,7 @@
                 <script>
                     window.setTimeout(function() {
                         window.location.href = '/utenti';
-                    }, 5000);
+                    }, 7000);
                 </script>
             @endif
 

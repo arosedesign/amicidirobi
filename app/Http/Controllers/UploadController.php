@@ -14,78 +14,110 @@ class UploadController extends Controller
     public function store($data)
     {
 
-        $nome = $data['nome'];
-        $immagine = $data['immagine'];
+        $image = array();
 
-        $img = Image::make($immagine);
+        foreach($data as $val => $file) {
 
-        $fotoNome = $nome.'_'.time().'.'.$immagine->getClientOriginalExtension();
+            $nome = $file['nome'];
+            $immagine = $file['immagine'];
 
-        $size = $img->filesize();
+            $formato = $immagine->getClientOriginalExtension();
 
-        if ($size <= 1000000) {
+            if ($formato === 'jpg' || $formato === 'png' || $formato === 'jpeg' || $formato === 'gif') {
 
-            $img->save(public_path('/uploads/original/'.$fotoNome));
+                $img = Image::make($immagine);
 
+                $size = $img ->filesize();
 
-            var_dump($size);
-            $width = $img->width();
-            $height = $img->height();
+                if ($size <= 1000000) {
 
-            if ($width >= $height) {
+                    $image[$val]['nome'] = $nome . '_' . time() . '_' . $val . '.' . $formato;
 
-                if ($width > 1200)  {
-                    $img->resize(1200, null, function ($constraint) {
-                        $constraint->aspectRatio();
-                    })
-                        ->save(public_path('/uploads/big/'.$fotoNome))
-                        ->resize(150, null, function ($constraint) {
-                            $constraint->aspectRatio();
-                        })
-                        ->save(public_path('/uploads/thumb/'.$fotoNome));
+                    $img->save(public_path('/uploads/original/' . $image[$val]['nome']));
+
+                    $width = $img->width();
+                    $height = $img->height();
+
+                    if ($width >= $height) {
+
+                        if ($width > 1200) {
+                            $img->resize(1200, null, function ($constraint) {
+                                    $constraint->aspectRatio();
+                                })
+                                ->save(public_path('/uploads/big/' . $image[$val]['nome']))
+                                ->resize(600, null, function ($constraint) {
+                                    $constraint->aspectRatio();
+                                })
+                                ->save(public_path('/uploads/small/' . $image[$val]['nome']))
+                                ->resize(null, 150, function ($constraint) {
+                                    $constraint->aspectRatio();
+                                })
+                                ->crop(150, 150)
+                                ->save(public_path('/uploads/thumb/' . $image[$val]['nome']));
+                        } else {
+                            $img->save(public_path('/uploads/big/' . $image[$val]['nome']))
+                                ->resize(600, null, function ($constraint) {
+                                    $constraint->aspectRatio();
+                                })
+                                ->save(public_path('/uploads/small/' . $image[$val]['nome']))
+                                ->resize(null, 150, function ($constraint) {
+                                    $constraint->aspectRatio();
+                                })
+                                ->crop(150, 150)
+                                ->save(public_path('/uploads/thumb/' . $image[$val]['nome']));
+                        }
+
+                    } else {
+
+                        if ($height > 900) {
+                            $img->resize(null, 900, function ($constraint) {
+                                    $constraint->aspectRatio();
+                                })
+                                ->save(public_path('/uploads/big/' . $image[$val]['nome']))
+                                ->resize(null, 400, function ($constraint) {
+                                    $constraint->aspectRatio();
+                                })
+                                ->save(public_path('/uploads/small/' . $image[$val]['nome']))
+                                ->resize(150, null, function ($constraint) {
+                                    $constraint->aspectRatio();
+                                })
+                                ->crop(150, 150)
+                                ->save(public_path('/uploads/thumb/' . $image[$val]['nome']));
+
+                        } else {
+                            $img->save(public_path('/uploads/big/' . $image[$val]['nome']))
+                                ->resize(null, 400, function ($constraint) {
+                                    $constraint->aspectRatio();
+                                })
+                                ->save(public_path('/uploads/small/' . $image[$val]['nome']))
+                                ->resize(150, null, function ($constraint) {
+                                    $constraint->aspectRatio();
+                                })
+                                ->crop(150, 150)
+                                ->save(public_path('/uploads/thumb/' . $image[$val]['nome']));
+                        }
+
+                    }
+
+                    $image[$val]['upload'] = true;
+                    $image[$val]['errore'] = '';
+
                 } else {
-                    $img->save(public_path('/uploads/big/'.$fotoNome))
-                        ->resize(150, null, function ($constraint) {
-                            $constraint->aspectRatio();
-                        })
-                        ->save(public_path('/uploads/thumb/'.$fotoNome));
+                    $image[$val]['nome'] = $immagine->getClientOriginalName();
+                    $image[$val]['upload'] = false;
+                    $image[$val]['errore'] = 'Immagine troppo grande (dimensioni superiori a 1mb)';
                 }
 
             } else {
-
-                if ($height > 900)  {
-                    $img->resize(null, 900, function ($constraint) {
-                        $constraint->aspectRatio();
-                    })
-                        ->save(public_path('/uploads/big/'.$fotoNome))
-                        ->resize(null, 150, function ($constraint) {
-                            $constraint->aspectRatio();
-                        })
-                        ->save(public_path('/uploads/thumb/'.$fotoNome));
-
-                } else {
-                    $img->save(public_path('/uploads/big/'.$fotoNome))
-                        ->resize(null, 150, function ($constraint) {
-                            $constraint->aspectRatio();
-                        })
-                        ->save(public_path('/uploads/thumb/'.$fotoNome));
-                }
-
-
-
+                $image[$val]['nome'] = $immagine->getClientOriginalName();
+                $image[$val]['upload'] = false;
+                $image[$val]['errore'] = 'Formato dell\'immagine non supportato (caricare un file jpg, png o gif)';
             }
 
-            return ([
-                'upload' => true,
-                'foto' => $fotoNome
-            ]);
-
-        } else {
-            return ([
-                'upload' => false,
-                'errore' => 'Immagine troppo grande (dimensioni superiori a 1mb)'
-            ]);
         }
 
+        return (['image' => $image]);
+
     }
+
 }

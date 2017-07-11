@@ -24,7 +24,7 @@
                         <script>
                             window.setTimeout(function() {
                                 window.location.href = '/profilo';
-                            }, 5000);
+                            }, 7000);
                         </script>
                     @endif
 

@@ -16,30 +16,50 @@
                 <script>
                     window.setTimeout(function() {
                         window.location.href = '/festival';
-                    }, 5000);
+                    }, 7000);
                 </script>
-            @elseif($update === 'false')
+            @elseif($update === 'error')
                 <div class="alert alert-danger">
-                    Attenzione! Non è stato possibile effettuare la modifica
+                    {{ $errore }}
                 </div>
 
                 <script>
                     window.setTimeout(function() {
                         window.location.href = '/festival';
-                    }, 5000);
+                    }, 7000);
+                </script>
+            @endif
+
+            @if(!empty($esito))
+
+                @if($esito['successi'] != 0 && $esito['successi'] != 1 )
+                    <div class="alert alert-success">
+                        {{ $esito['successi'] }} elementi caricati con successo!
+                     </div>
+                @elseif($esito['successi'] === 1)
+                    <div class="alert alert-success">
+                        {{ $esito['successi'] }} elemento caricato con successo!
+                    </div>
+                @endif
+
+                @foreach( $esito['img'] as $key)
+
+                     @if($key['upload'] === false)
+                         <div class="alert alert-danger">
+                             Non è stato possibile caricare {{ $key['nome'] }}.<br>
+                            {{ $key['errore'] }}
+                        </div>
+                    @endif
+
+                @endforeach
+
+                <script>
+                    window.setTimeout(function() {
+                        window.location.href = '/festival';
+                    }, 15000);
                 </script>
 
-                @elseif($update === 'error')
-                    <div class="alert alert-danger">
-                        {{ $errore }}
-                    </div>
-
-                    <script>
-                        window.setTimeout(function() {
-                            window.location.href = '/festival';
-                        }, 5000);
-                    </script>
-                @endif
+            @endif
 
 
             <div class="panel panel-default">
@@ -73,7 +93,7 @@
 
                                         {!! Form::open(['action' => 'FestivalController@UpdateImg', 'method' => 'post', 'files' => true, 'class' => 'form-horizontal']) !!}
                                         {{ Form::hidden('nome', $campo['campo'] ) }}
-                                        {{Form::file('immagine',['class' => 'btn btn-info'])}}
+                                        {{Form::file('immagine[]',['class' => 'btn btn-info'])}}
                                         {{ Form::submit('Salva', array('class' => 'salva btn btn-primary')) }}
                                         {!! Form::close() !!}
 
@@ -89,6 +109,28 @@
                             </tr>
 
                         @endforeach
+
+                            <tr>
+                                <td class="titolo"><h2>Homepage gallery</h2></td>
+                                <td class="valore">
+                                    @foreach( $gallery as $img)
+                                        <div id="{{$img['id']}}">
+                                            <img src="{{asset('uploads/thumb/' . $img['valore'] )}}" >
+                                        </div>
+                                    @endforeach
+                                </td>
+                                <td class="modifica">
+                                    <h4>MODIFICA:</h4>
+
+                                        {!! Form::open(['action' => 'FestivalController@UpdateGallery', 'method' => 'post', 'files' => true, 'class' => 'form-horizontal']) !!}
+                                        {{ Form::hidden('nome', 'homepage' ) }}
+                                        {{Form::file('immagine[]',['class' => 'btn btn-info', 'multiple' => true])}}
+                                        {{ Form::submit('Salva', array('class' => 'salva btn btn-primary')) }}
+                                        {!! Form::close() !!}
+
+                                </td>
+
+                            </tr>
 
 
                     </table>
