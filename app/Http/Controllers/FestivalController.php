@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use Intervention\Image\ImageManagerStatic as Image;
+use \DomDocument;
+use File;
 
 class FestivalController extends Controller
 {
@@ -69,6 +72,97 @@ class FestivalController extends Controller
             return redirect('/');
         }
 
+    }
+
+    public function UpdateTesto(Request $request)
+    {
+        $campo = $request->get('nome');
+        $testo = $request->get('testo');
+
+        if (!empty($campo) && !empty($testo) ) {
+
+            $dom = new DomDocument();
+            $dom->loadHTML(mb_convert_encoding($testo, 'HTML-ENTITIES', 'UTF-8'));
+
+
+            $images = $dom->getElementsByTagName('img');
+
+            foreach($images as $img){
+                $src = $img->getAttribute('src');
+
+                // if the img source is 'data-url'
+                if(preg_match('/data:image/', $src)){
+
+                    // get the mimetype
+                    preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
+                    $mimetype = $groups['mime'];
+
+                    // Generating a random filename
+                    $filename = uniqid();
+                    $filepath = $filename.".".$mimetype;
+
+                    // @see http://image.intervention.io/api/
+                    $image = Image::make($src);
+
+                    $width = $image->width();
+                    $height = $image->height();
+
+                    if ($width >= $height) {
+
+                        if ($width > 1200) {
+                            $image
+                                ->encode($mimetype, 100)
+                                ->save(public_path('/uploads/original/'.$filepath))
+                                ->resize(1200, null, function ($constraint) {
+                                    $constraint->aspectRatio();
+                                })
+                                ->save(public_path('/uploads/big/'.$filepath));
+                        } else {
+                            $img
+                                ->encode($mimetype, 100)
+                                ->save(public_path('/uploads/original/'.$filepath))
+                                ->save(public_path('/uploads/big/'.$filepath));
+                        }
+                    } else {
+
+                        if ($height > 900) {
+                            $image
+                                ->encode($mimetype, 100)
+                                ->save(public_path('/uploads/original/' . $filepath))
+                                ->resize(null, 900, function ($constraint) {
+                                    $constraint->aspectRatio();
+                                })
+                                ->save(public_path('/uploads/big/' . $filepath));
+                        } else {
+                            $img
+                                ->encode($mimetype, 100)
+                                ->save(public_path('/uploads/original/' . $filepath))
+                                ->save(public_path('/uploads/big/' . $filepath));
+                        }
+                    }
+
+                    $new_src = '/uploads/big/' . $filepath;
+                    $img->removeAttribute('src');
+                    $img->setAttribute('src', $new_src);
+                }
+            }
+
+            $testo = $dom->saveHTML();
+
+            var_dump($dom);
+
+            DB::table('festival')
+                ->where('campo', $campo)
+                ->update([
+                    'valore' => $testo
+                ]);
+
+            return redirect('/festival?update=true');
+
+        } else {
+            $errore = urlencode('Attenzione! Non è stato possibile effettuare la modifica');
+            return redirect('/festival?update=error&errore='.$errore);
+        }
     }
 
     public function UpdateImg(Request $request)
@@ -214,25 +308,26 @@ class FestivalController extends Controller
         }
     }
 
-    public function UpdateTesto(Request $request)
+    public function CancellaImgDaGal(Request $request)
     {
-        $campo = $request->get('nome');
-        $testo = $request->get('testo');
+        $id = $request->get('numero');
+        $img = $request->get('img');
 
-        if (!empty($campo) && !empty($testo) ) {
+        if (!empty($id) ) {
+            File::delete(public_path('/uploads/small/' . $img));
+            File::delete(public_path('/uploads/big/' . $img));
+            File::delete(public_path('/uploads/thumb/' . $img));
+            File::delete(public_path('/uploads/original/' . $img));
 
 
-
-            DB::table('festival')
-                ->where('campo', $campo)
-                ->update([
-                    'valore' => $testo
-                ]);
+            DB::table('festival_yearsago')
+                ->where('id', $id)
+                ->delete();
 
             return redirect('/festival?update=true');
 
         } else {
-            $errore = urlencode('Attenzione! Non è stato possibile effettuare la modifica');
+            $errore = urlencode('Attenzione! Non è stato possibile eliminare l\'immagine');
             return redirect('/festival?update=error&errore='.$errore);
         }
     }

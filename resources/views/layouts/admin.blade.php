@@ -206,29 +206,5 @@
 
     <!-- Scripts -->
     <script src="{{ asset(mix('js/admin.js')) }}"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.summernote').summernote({
-                callbacks: {
-                    onPaste: function (e) {
-                        var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
-                        e.preventDefault();
-                        document.execCommand('insertText', false, bufferText);
-                    }
-                },
-                toolbar: [
-                    ['fontsize', ['fontsize']],
-                    ['font', ['bold', 'italic', 'underline', 'clear']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['misc', ['fullscreen', 'undo', 'redo']],
-                    ['insert', ['picture', 'hr', 'link', 'video']]
-                ],
-                height:200,
-                lang: 'it-IT',
-                fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48' , '64', '82', '150']
-            });
-        });
-    </script>
 </body>
 </html>
